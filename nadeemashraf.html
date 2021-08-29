@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AVRL Assessment - Nadeem Ashraf</title>
+
+    <style>
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      /* Box */
+      .box {
+        width: 60vw;
+        height: 45vh;
+        border: 13px solid rgb(21, 21, 59);
+        margin: 16px 0;
+        display: flex;
+        align-items: flex-end;
+      }
+      /* Bars */
+      .bars {
+        width: 20%;
+        height: 100%;
+        transition: height 1s ease-in-out;
+        left: 0px;
+        right: 0px;
+        bottom: 0;
+        top: 100%;
+      }
+
+      #ONE {
+        background-color: blueviolet;
+      }
+      #TWO {
+        background-color: palevioletred;
+      }
+      #THREE {
+        background-color: rgb(235, 49, 126);
+      }
+      #FOUR {
+        background-color: orangered;
+      }
+      #FIVE {
+        background-color: rgb(255, 222, 37);
+      }
+
+      /* buttons */
+      .buttons {
+        width: 20%;
+        display: flex;
+        padding: 2px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .buttons .start {
+        width: 80px;
+        padding: 8px 16px;
+        border: unset;
+        color: white;
+        background-color: green;
+        cursor: pointer;
+      }
+      .buttons .stop {
+        width: 80px;
+        padding: 8px 16px;
+        border: unset;
+        color: white;
+        background-color: red;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="box">
+        <div class="bars" id="ONE"></div>
+        <div class="bars" id="TWO"></div>
+        <div class="bars" id="THREE"></div>
+        <div class="bars" id="FOUR"></div>
+        <div class="bars" id="FIVE"></div>
+      </div>
+      <div class="buttons">
+        <button id="startAnim" class="start">START</button>
+        <button id="stopAnim" onclick="stopAnim" class="stop">STOP</button>
+      </div>
+    </div>
+    <script>
+      let startButton = document.getElementById("startAnim");
+      let stopButton = document.getElementById("stopAnim");
+
+      //Button TOggle
+      let toggle = false;
+      let interval;
+
+      //Function for generating random Heights
+      function randomHeight() {
+        return Math.floor(Math.random() * 100 + 1);
+      }
+
+      //animation interval
+      let i = 2000;
+
+      /**
+       * Optimized - Less redundant Code
+      */
+      let bars = document.getElementsByClassName("bars");
+      let arrBars = Array.from(bars);
+
+      function animate() {
+        arrBars.map((e, index) => {
+          switch (index) {
+            case 0:
+              changeHeight("One", randomHeight(), e);
+              break;
+            case 1:
+              changeHeight("Two", randomHeight(), e);
+              break;
+            case 2:
+              changeHeight("Three", randomHeight(), e);
+              break;
+            case 3:
+              changeHeight("Four", randomHeight(), e);
+              break;
+            case 4:
+              changeHeight("Five", randomHeight(), e);
+              break;
+          }
+        });
+      }
+
+      function changeHeight(str, height, doc) {
+        var style = document.createElement("style");
+        style.type = "text/css";
+        style.innerHTML = `.randomHeight${str} { height: ${height}%; }`;
+
+        doc.appendChild(style);
+        doc.classList.add(`randomHeight${str}`);
+      }
+
+      // /**
+      //  * PLEASE CONSIDER LOOKING AT THIS AS WELL
+      //  * Bruteforce Approach - The most basic method
+      // */
+      // //Get all the bars
+      // let barOne = document.getElementById("ONE");
+      // let barTwo = document.getElementById("TWO");
+      // let barThree = document.getElementById("THREE");
+      // let barFour = document.getElementById("FOUR");
+      // let barFive = document.getElementById("FIVE");
+
+      // function barHeightOne(height) {
+      //   var styleOne = document.createElement("style");
+      //   styleOne.type = "text/css";
+      //   styleOne.innerHTML = `.randomHeightOne { height: ${height}%; }`;
+
+      //   barOne.appendChild(styleOne);
+      //   barOne.classList.add("randomHeightOne");
+      // }
+
+      // function barHeightTwo(height) {
+      //   var styleTwo = document.createElement("style");
+      //   styleTwo.type = "text/css";
+      //   styleTwo.innerHTML = `.randomHeightTwo { height: ${height}%; }`;
+
+      //   barTwo.appendChild(styleTwo);
+      //   barTwo.classList.add("randomHeightTwo");
+      // }
+
+      // function barHeightThree(height) {
+      //   var styleThree = document.createElement("style");
+      //   styleThree.type = "text/css";
+      //   styleThree.innerHTML = `.randomHeightThree { height: ${height}%; }`;
+
+      //   barThree.appendChild(styleThree);
+      //   barThree.classList.add("randomHeightThree");
+      // }
+
+      // function barHeightFour(height) {
+      //   var styleFour = document.createElement("style");
+      //   styleFour.type = "text/css";
+      //   styleFour.innerHTML = `.randomHeightFour { height: ${height}%; }`;
+
+      //   barFour.appendChild(styleFour);
+      //   barFour.classList.add("randomHeightFour");
+      // }
+
+      // function barHeightFive(height) {
+      //   var styleFive = document.createElement("style");
+      //   styleFive.type = "text/css";
+      //   styleFive.innerHTML = `.randomHeightFive { height: ${height}%; }`;
+
+      //   barFive.appendChild(styleFive);
+      //   barFive.classList.add("randomHeightFive");
+      // }
+
+      // function animateHeight() {
+      //   barHeightOne(randomHeight());
+      //   barHeightTwo(randomHeight());
+      //   barHeightThree(randomHeight());
+      //   barHeightFour(randomHeight());
+      //   barHeightFive(randomHeight());
+      // }
+
+      
+      startButton.addEventListener("click", () => {
+        if (toggle === false) {
+          toggle = true;
+          // animateHeight();
+          animate();
+          interval = setInterval(function () {
+            // animateHeight();
+            animate();
+          }, i);
+          console.log(toggle);
+        }
+      });
+
+      stopButton.addEventListener("click", () => {
+        if (toggle === true) {
+          toggle = false;
+          clearInterval(interval);
+          console.log(toggle);
+        }
+      });
+
+    </script>
+  </body>
+</html>
